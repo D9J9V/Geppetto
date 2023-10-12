@@ -1,5 +1,4 @@
-{
-  /*
+/*
 -----------------------------
 
 import OpenAI from "openai";
@@ -14,7 +13,6 @@ const chatCompletion = await openai.chat.completions.create({
 });
 ---------------------------
 */
-}
 
 /*
 
