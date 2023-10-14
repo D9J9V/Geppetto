@@ -8,7 +8,11 @@ type Data = {
 };
 
 async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  const { prompt, chatId, model, session } = req.body;
+  // Acceder al cuerpo de la solicitud
+  const requestBody = await req.json();
+
+  // Desestructurar los datos del cuerpo
+  const { prompt, chatId, model, session } = requestBody;
 
   if (!prompt) {
     return new Response("No prompt provided");
@@ -28,6 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
       avatar: "https://links.papareact.com/89k",
     },
   };
+
   await adminDb
     .collection("users")
     .doc(session?.user?.email)
