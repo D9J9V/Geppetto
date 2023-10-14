@@ -1,25 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import admin from "firebase-admin";
 import { adminDb } from "@/firebaseAdmin";
-import query from "@/lib/queryApi";
+import query from "@/app/api/queryApi";
 
 type Data = {
   answer: string;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   const { prompt, chatId, model, session } = req.body;
 
   if (!prompt) {
-    res.status(400).json({ answer: "No prompt provided" });
-    return;
+    return new Response("No prompt provided");
   }
   if (!chatId) {
-    res.status(400).json({ answer: "No chatId provided" });
-    return;
+    return new Response("No chatId provided");
   }
 
   const response = await query(prompt, chatId, model);
@@ -41,5 +36,10 @@ export default async function handler(
     .collection("messages")
     .add(message);
 
-  res.status(200).json({ answer: message.text });
+  return new Response(JSON.stringify({ answer: message.text }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
 }
+
+export { handler as POST, handler as GET };
