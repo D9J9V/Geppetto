@@ -1,4 +1,3 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import openai from "@/app/api/chatgpt";
 
 type Option = {
@@ -10,7 +9,7 @@ type Data = {
   modelOptions: Option[];
 };
 
-async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+async function handler(request: Request, response: Response) {
   const models = await openai.models.list().then((response) => response.data);
 
   const modelOptions = models.map((model) => ({

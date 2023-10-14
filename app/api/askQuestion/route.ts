@@ -1,4 +1,3 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import admin from "firebase-admin";
 import { adminDb } from "@/firebaseAdmin";
 import query from "@/app/api/queryApi";
@@ -7,7 +6,7 @@ type Data = {
   answer: string;
 };
 
-async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+async function handler(req: Request, res: Response) {
   // Acceder al cuerpo de la solicitud
   const requestBody = await req.json();
 
